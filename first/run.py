@@ -15,20 +15,23 @@ plt.plot(t1, F(t1), color='#478FC1')
 plt.savefig('fig1.png', dpi=150.0)
 
 e = 0.001
-t = [(-4, -3.5), (-1.5, -1), (1, 1.5), (3.5, 4)]
+t = [(-4, -3.5), (-2, -1), (1, 2), (3.5, 4)]
 res = []
 counters = []
+results: list
+
+plt.plot(t1, F(t1), color='#478FC1')
 
 for interval in t:
-    x, count = solve(interval[0], interval[1], F, e)
-    res.append(x)
+    count, results = solve(interval[0], interval[1], F, e)
+    res.append(results[-1])
     counters.append(count)
+    for i in range(0, len(results)):
+        y = [F(x) for x in results[i:i+2]]
+        plt.plot(results[i:i+2], y, 'ro-')
 
 print(f'Количество итераций: {counters}')
 print(f'Приблизительный корни: {[round(x, 3) for x in res]}')
 print(f'Их значения: {[round(x, 5) for x in map(F, res)]}')
 
-plt.plot(t1, F(t1), color='#478FC1')
-for x in res:
-    plt.scatter(x, F(x), color='r')
 plt.savefig('fig2.png', dpi=150.0)

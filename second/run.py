@@ -18,17 +18,18 @@ plt.savefig('fig1.png', dpi=150.0)
 e = 0.001
 x1 = -0.5
 x2 = 1
-res1 = [x for x in gen_x_i(x1, F, e, newton)]
-res2 = [x for x in gen_x_i(x2, F, e, newton)]
+res1 = [x1, *gen_x_i(x1, F, e, 'x', newton)]
+res2 = [x2, *gen_x_i(x2, F, e, 'x', newton)]
 
 plt.plot(t1, F(t1), color='#478FC1')
 
-plt.scatter(x1, F(x1), color='r')
-for x in res1:
-    plt.scatter(x, F(x), color='r')
-plt.scatter(x2, F(x2), color='r')
-for x in res2:
-    plt.scatter(x, F(x), color='r')
+for i in range(0, len(res1)):
+    y = [F(x) for x in res1[i:i + 2]]
+    plt.plot(res1[i:i + 2], y, 'ro-')
+
+for i in range(0, len(res2)):
+    y = [F(x) for x in res2[i:i + 2]]
+    plt.plot(res2[i:i + 2], y, 'ro-')
 
 plt.savefig('fig2.png', dpi=150.0)
 

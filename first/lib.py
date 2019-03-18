@@ -13,10 +13,12 @@ def get_new_range(a, b, x, F):
 def solve(a, b, F, e):
     x = (a + b) / 2
     count = 0
+    results = [x]
 
     while abs(F(x)) >= e:
         count += 1
         a, b = get_new_range(a, b, x, F)
         x = (a + b) / 2
+        results.append(x)
 
-    return x, count
+    return count, results

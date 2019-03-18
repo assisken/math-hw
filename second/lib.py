@@ -1,29 +1,29 @@
 from sympy import Symbol, lambdify
 
 
-def diff(F):
-    x = Symbol('x')
+def diff(F, symbol):
+    x = Symbol(symbol)
     y = F(x)
     yprime = y.diff(x)
     return lambdify(x, yprime, 'numpy')
 
 
-def easy_iter(F):
+def easy_iter(F, symbol):
     def wrapped(x):
-        if diff(F)(x) > 0:
+        if diff(F, symbol)(x) > 0:
             return 0.1
         else:
             return -0.1
     return wrapped
 
 
-def newton(F):
-    return lambda x: 1 / diff(F)(x)
+def newton(F, symbol):
+    return lambda x: 1 / diff(F, symbol)(x)
 
 
-def gen_x_i(start, F, e, _lambda):
+def gen_x_i(start, F, e, symbol, _lambda):
     x_old = start
     while abs(F(x_old)) >= e:
-        x = x_old - _lambda(F)(x_old) * F(x_old)
+        x = x_old - _lambda(F, symbol)(x_old) * F(x_old)
         yield x
         x_old = x
