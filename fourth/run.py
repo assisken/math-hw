@@ -1,8 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from numpy.ma import arctan
-from sympy import symbols, Matrix, atan, sqrt
-from sympy import tan
+from sympy import symbols, Matrix, atan, sqrt, tan
 
 from fourth.lib import newton_solve, iter_solve
 
@@ -24,41 +23,36 @@ F = _f2(X, Y)
 plt.contour(X, Y, F, [0])
 plt.plot(x, f1(x))
 
-# x_s, y_s = symbols('x y')
-# F = Matrix([
-#     [_f1(x_s, y_s)],
-#     [_f2(x_s, y_s)]
-# ])
+x_s, y_s = symbols('x y')
+F = Matrix([
+    [_f1(x_s, y_s)],
+    [_f2(x_s, y_s)]
+])
 
 e = 0.0001
 starts = [
     (1.0, 0.5),
-    # (0.0, -0.5),
-    # (-1.0, -0.5),
-    # (-0.0, 0.5),
+    (0.5, -1),
+    (-1.0, -0.5),
+    (-0.5, 1),
 ]
 
 # print('Метод Ньютона:')
 # for start in starts:
-#     x0, y0 = start
-#     x_res, y_res, count = newton_solve('x y', (x0, y0), F, e)
+#     x_res, y_res, count = newton_solve('x y', start, F, e)
 #     print(f'\tДля точки {start}:')
 #     print(f'\tКоличество итераций: {count}')
-#     print(f'\t\tx = {x_res[-1]}; y = {y_res[-1]}')
+#     print(f'\t\tx = {round(x_res[-1], 4)}; y = {round(y_res[-1], 4)}')
 #
 #     plt.plot(x_res, y_res, 'ro-', color='#ff0000')
 # plt.savefig('fig1.png', dpi=150)
 
-
-f1 = lambda x: (atan(x**2) - 0.1) / x   # y = ...
-f2 = lambda y: sqrt(5/3 - 10/3 * y**2)  # x = ...
-F = [f1, f2]
 print('Метод простых итераций:')
 for start in starts:
-    x_res, y_res, count = iter_solve(start, F, e)
+    x_res, y_res, count = iter_solve('x y', start, F, e)
     print(f'\tДля точки {start}:')
     print(f'\tКоличество итераций: {count}')
-    print(f'\t\tx = {x_res[-1]}; y = {y_res[-1]}')
+    print(f'\t\tx = {round(x_res[-1], 4)}; y = {round(y_res[-1], 4)}')
 
     plt.plot(x_res, y_res, 'ro-', color='#ff0000')
 

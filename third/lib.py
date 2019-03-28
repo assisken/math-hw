@@ -40,7 +40,7 @@ def seidel_solve(A: np.matrix, B: np.matrix, **kwargs):
             s2 = sum(A.item(i, j) * x_old[j] for j in range(i + 1, n))
             x[i] = (B.item(i, 0) - s1 - s2) / A.item(i, i)
 
-        if np.sqrt(sum((x[i] - x_old[i]) ** 2 for i in range(n))) <= e:
+        if e >= np.sqrt(sum((x[i] - x_old[i]) ** 2 for i in range(n))):
             break
 
     return np.matrix([[i] for i in x])
