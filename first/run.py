@@ -9,7 +9,7 @@ plt.ylim(-2, 2)
 plt.xlim(-4, 4)
 
 F = lambda x: ctg(x) - x / 3
-t1 = np.arange(-5, 5, pow(2, -5))
+t1 = np.arange(-5, 5, 2**(-5))
 
 plt.plot(t1, F(t1), color='#478FC1')
 plt.savefig('fig1.png', dpi=150.0)

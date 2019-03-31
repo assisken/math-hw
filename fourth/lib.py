@@ -1,8 +1,7 @@
 import itertools
-from decimal import Decimal
 
 import numpy as np
-from sympy import diff, symbols, Matrix, Symbol, linsolve, pprint, Float, Add, sqrt
+from sympy import diff, symbols, Matrix, Symbol, linsolve, Add, sqrt
 
 
 def get_yakobi(F: Matrix, _symbols: str) -> Matrix:

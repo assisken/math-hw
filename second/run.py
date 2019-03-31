@@ -7,7 +7,7 @@ plt.grid(True)
 plt.axhline(0, color='black')
 plt.axvline(0, color='black')
 plt.ylim(-2, 2)
-plt.xlim(-5, 5)
+plt.xlim(-2, 2)
 
 F = lambda x: 7**x - 6*x - 2
 t1 = np.arange(-5, 5, 0.02)
