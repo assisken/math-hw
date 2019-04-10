@@ -2,7 +2,7 @@ from functools import reduce
 from operator import mul
 from typing import List, Tuple
 
-from sympy import symbols, linsolve, expand
+from sympy import symbols, linsolve, expand, Symbol, pprint, Sum, lambdify
 
 
 def avg(l: List[float]) -> float:
@@ -11,7 +11,6 @@ def avg(l: List[float]) -> float:
 
 def prod(iterable):
     return reduce(mul, iterable, 1)
-
 
 
 def linear(points: List[Tuple[float, float]]) -> Tuple[float, float]:
@@ -51,5 +50,38 @@ def polynom_lagrange(points: List[Tuple[float, float]]):
     Q = lambda i: prod(
         [(x - points[j][0]) / (points[i][0] - points[j][0]) if i != j else 1 for j in range(len(points))]
     )
-    L = sum([points[i][1] * Q(i) for i in range(len(points))])
-    return expand(L), x
+    P = sum([points[i][1] * Q(i) for i in range(len(points))])
+    return expand(P), x
+
+
+def A(i: int, x: Symbol, x_list: List[float]):
+    b = [Symbol(f'b_{i}') for i in range(len(x_list))]
+    if i == 0:
+        return b[0]
+    res = b[i] * prod([x - x_list[j] for j in range(i)])
+    return res
+
+
+def b_gen(x: Symbol, points: List[Tuple[float, float]]):
+    x_list = [i[0] for i in points]
+    b_list = [symbols(f'b_{i}') for i in range(len(points))]
+    system = []
+    for i in range(len(points)):
+        A_sum = sum([A(j, x, x_list) for j in range(i + 1)]).subs({x: x_list[i]})
+        res = - points[i][1] + A_sum
+        system.append(res)
+    res = linsolve(system, b_list)
+    solve = next(iter(res))
+
+    return solve
+
+
+def polynom_newton(points: List[Tuple[float, float]]):
+    x = symbols('x')
+    x_list = [i[0] for i in points]
+    b_list = b_gen(x, points)
+    L = sum([A(i, x, x_list) for i in range(len(points))])
+    sub = {f'b_{i}': b_list[i] for i in range(len(points))}
+    func = L.subs(sub)
+
+    return func, x

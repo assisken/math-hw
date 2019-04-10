@@ -18,8 +18,8 @@ plt.savefig('fig1.png', dpi=150.0)
 e = 0.001
 x1 = -0.5
 x2 = 1
-res1 = [x1, *gen_x_i(x1, F, e, 'x', newton)]
-res2 = [x2, *gen_x_i(x2, F, e, 'x', newton)]
+res1 = [x1, *gen_x_i(x1, F, e, 'x', easy_iter)]
+res2 = [x2, *gen_x_i(x2, F, e, 'x', easy_iter)]
 
 plt.plot(t1, F(t1), color='#478FC1')
 
