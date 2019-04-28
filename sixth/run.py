@@ -30,12 +30,21 @@ x = np.arange(-2, 2, 0.001)
 plt.plot(x, F(x), c='#ff0000')
 plt.savefig('fig1.png', dpi=150.0)
 
-square_res = round(square(F, a, b, 1), zeroes)
-trap_res = trapezoidal(F, a, b, 1)
-simps_res = simpson(F, a, b)
-res = integrate(_F, a, b)
+square_res = round(square(F, a, b, e), zeroes)
+trap_res = round(trapezoidal(F, a, b, e), zeroes)
+simps_res = round(simpson(F, a, b), zeroes)
+res = round(integrate(_F, a, b), zeroes)
+delta1 = round(res - square_res, zeroes)
+delta2 = round(res - trap_res, zeroes)
+delta3 = round(res - simps_res, zeroes)
 
-print(f'Значение интеграла методом средних квадратов:\n\t{square_res}\n')
-print(f'Значение интеграла методом трапеции:\n\t{trap_res}\n')
-print(f'Значение интеграла методом Симпсона:\n\t{simps_res}\n')
+print(f'Значение интеграла методом средних квадратов:\n\t{square_res}')
+print(f'Отклонение от точного значения: {delta1}\n')
+
+print(f'Значение интеграла методом трапеции:\n\t{trap_res}')
+print(f'Отклонение от точного значения: {delta2}\n')
+
+print(f'Значение интеграла методом Симпсона:\n\t{simps_res}')
+print(f'Отклонение от точного значения: {delta3}\n')
+
 print(f'Действительное значение интеграла:\n\t{res}\n')

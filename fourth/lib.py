@@ -1,7 +1,7 @@
 import itertools
 
 import numpy as np
-from sympy import diff, symbols, Matrix, Symbol, linsolve, Add, sqrt
+from sympy import diff, symbols, Matrix, Symbol, linsolve, Add, sqrt, pprint
 
 
 def get_yakobi(F: Matrix, _symbols: str) -> Matrix:
@@ -41,7 +41,6 @@ def easy_iter(F, x, symbol, e):
     x_s = symbols(symbol)
     primal = diff(F(x_s), x_s)
     res = primal.subs({symbol: x})
-    print(res)
     if abs(e - r * res) >= 1:
         raise Exception(f'{res} не сходится.')
     if res > 0:

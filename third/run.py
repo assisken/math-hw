@@ -4,12 +4,12 @@ from third.lib import iter_solve, extract_result, seidel_solve
 
 e = 0.0001
 
-# A = np.matrix([[2, -5, -1],
-#                [-1.5, 0.1, 2],
-#                [1.25, 0.3, -0.5]])
-# B = np.matrix([[200],
-#                [600],
-#                [500]])
+A = np.matrix([[2, -5, -1],
+               [-1.5, 0.1, 2],
+               [1.25, 0.3, -0.5]])
+B = np.matrix([[1],
+               [3],
+               [1]])
 
 # A = np.matrix([[10, 2, -1],
 #                [-2, -6, -1],

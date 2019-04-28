@@ -1,14 +1,19 @@
-from numpy.ma import arange
+import numpy as np
+import sympy as sp
 from sympy import symbols
 
-import sympy as sp
+
+def frange(x, y, jump):
+    while x < y:
+        yield x
+        x += jump
 
 
 def square(fn, a, b, n) -> int:
     res = 0.0
-    for i in arange(a, b, n):
+    for i in frange(a, b - n, n):
         x_i = i
-        x_i2 = i + 1
+        x_i2 = i + n
 
         res += fn((x_i + x_i2) / 2) * (x_i2 - x_i)
     return res
@@ -16,11 +21,14 @@ def square(fn, a, b, n) -> int:
 
 def trapezoidal(fn, a, b, n):
     res = 0.0
-    for i in arange(a, b, n):
+    for i in frange(a, b - n, n):
         x_i = i
-        x_i2 = i + 1
+        x_i2 = i + n
 
         res += ((fn(x_i) + fn(x_i2)) / 2) * (x_i2 - x_i)
+
+    if res == np.inf:
+        res = trapezoidal(fn, a + 0.00001, b - 0.00001, n)
     return res
 
 
