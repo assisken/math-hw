@@ -1,8 +1,9 @@
+import numpy as np
 from functools import reduce
 from operator import mul
 from typing import List, Tuple
 
-from sympy import symbols, linsolve, expand, Symbol, pprint, Sum, lambdify
+from sympy import symbols, linsolve, expand, Symbol, pprint, Sum, lambdify, diff, factorial
 
 
 def avg(l: List[float]) -> float:
@@ -85,3 +86,20 @@ def polynom_newton(points: List[Tuple[float, float]]):
     func = L.subs(sub)
 
     return func, x
+
+
+def error_estimate(F, x, points: List[Tuple[float, float]]):
+    interval = (points[0][0], points[-1][0])
+    n = len(points)
+    M = get_M(F, x, interval)
+    w = abs(prod([x - i[0] for i in points]))
+    print(f'M = {M}, fac = {n + 1}!')
+    R = M / factorial(n + 1) * w
+    return R
+
+
+def get_M(F, x: Symbol, interval: Tuple[float, float]):
+    a, b = interval
+    df_dx = diff(F, x)
+    M = max([df_dx.subs({x: i}) for i in np.arange(a, b, 0.01)])
+    return M

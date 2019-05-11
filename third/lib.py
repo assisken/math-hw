@@ -1,4 +1,6 @@
 import itertools
+from pprint import pprint
+
 import numpy as np
 
 from numpy.linalg import norm
@@ -13,8 +15,10 @@ def iter_solve(A: np.matrix, B: np.matrix, **kwargs):
     beta = np.matrix([[B.item(i, 0) / A.item(i, i)] for i in range(len(A))])
     alpha = np.matrix([[-A.item(i, j) / A.item(i, i) if i != j else 0 for j in range(len(A))] for i in range(len(A))])
 
-    if norm(alpha, np.inf) > 1:
-        raise Exception('Система не сходится, решения нет')
+    n = norm(alpha, np.inf)
+    print(f'n = {n}')
+    if n >= 1:
+        raise Exception('Система не сходится, решения нет.')
 
     e = kwargs.get('e', 0.0001)
     x = np.matrix([[.0] for _ in range(length)])
@@ -33,7 +37,9 @@ def seidel_solve(A: np.matrix, B: np.matrix, **kwargs):
     n = len(A)
     x = [.0 for _ in range(n)]
 
-    while True:
+    converge = False
+
+    while not converge:
         x_old = np.copy(x)
         for i in range(n):
             s1 = sum(A.item(i, j) * x[j] for j in range(i))

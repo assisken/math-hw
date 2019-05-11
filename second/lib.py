@@ -1,3 +1,4 @@
+import numpy as np
 from sympy import Symbol, lambdify
 
 
@@ -6,6 +7,12 @@ def diff(F, symbol):
     y = F(x)
     yprime = y.diff(x)
     return lambdify(x, yprime, 'numpy')
+
+
+def convergence(F, x, symbol, _lambda: float) -> (bool, float):
+    df_dx = diff(F, symbol)
+    gamma = np.euler_gamma
+    return -gamma + 1 <= abs(_lambda * df_dx(x)) <= gamma + 1, abs(_lambda * df_dx(x))
 
 
 def easy_iter(F, symbol):
